@@ -1,11 +1,14 @@
 import { Logger, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import configuration from '../config/configuration';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpModule } from '@nestjs/axios';
+import { BrandControler } from './modules/controller/brand.controler';
+import { BrandService } from './modules/service/brand.service';
+import { BrandFacadeService } from './modules/facade/brand.facade.service';
+import { BrandEntity } from './modules/entity/brand.entity';
+import { BrandRepository } from './modules/repository/brand.repository';
 
 @Module({
   imports: [
@@ -27,14 +30,15 @@ import { HttpModule } from '@nestjs/axios';
       password: configuration().database.password,
       database: configuration().database.dbname,
       entities: [
-
+        BrandEntity
       ],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([BrandEntity, BrandRepository])
   ],
-  controllers: [AppController],
+  controllers: [BrandControler],
   providers: [
-    AppService,
+    BrandService, BrandFacadeService,
     Logger
   ],
 })
