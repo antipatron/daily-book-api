@@ -6,13 +6,12 @@ files:
 hooks:
   ApplicationStop:
     - location: scripts/application_stop.sh
-      timeout: 12000
-      runas: ubuntu
+      timeout: 900
   BeforeInstall:
     - location: scripts/before_install.sh
-      timeout: 12000
+      timeout: 900
       runas: ubuntu
   ApplicationStart:
     - location: scripts/application_start.sh
-      timeout: 12000
+      timeout: 900
       runas: ubuntu
