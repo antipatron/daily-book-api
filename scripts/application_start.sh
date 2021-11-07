@@ -11,9 +11,13 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # loads nvm	
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # loads nvm bash_completion (node is in path now)
 
+# para usar pm2
+# npm install pm2@latest -g
+
 #install node modules
 npm install
 npm run build
+# pm2 start dist/src/main.js --name daily-book-api
 npm run start:prod > app.out.log 2 < /dev/null &
 
 #start our node app in the background
