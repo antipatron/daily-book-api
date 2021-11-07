@@ -14,7 +14,7 @@ export NVM_DIR="$HOME/.nvm"
 #install node modules
 npm install
 npm run build
-pm2 start dist/src/main.js --name daily-book-api
+npm run start:prod > app.out.log 2 < /dev/null &
 
 #start our node app in the background
 # node app.js > app.out.log 2> app.err.log < /dev/null &
