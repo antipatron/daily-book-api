@@ -1,7 +1,7 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common';
-import { BrandFacadeService } from '../facade/brand.facade.service';
-import { StandardResponse } from '../../utils/http-response/standard-response';
-import { BrandDto } from '../dto/brand.dto';
+import { Controller, Get, HttpStatus } from "@nestjs/common";
+import { BrandFacadeService } from "../facade/brand.facade.service";
+import { StandardResponse } from "../../utils/http-response/standard-response";
+import { BrandDto } from "../dto/brand.dto";
 
 @Controller('api/brand')
 export class BrandController {
