@@ -8,4 +8,9 @@ export class ProviderService {
     @InjectRepository(ProviderRepository)
     private readonly repository: ProviderRepository
   ) {}
+
+  public async exists(id: number): Promise<boolean> {
+    const result = await this.repository.findOne(id);
+    return !!result
+  }
 }

@@ -3,6 +3,5 @@ import { ProviderProductsService } from '../service/provider-products.service';
 
 @Injectable()
 export class ProviderProductsFacadeService {
-  constructor(private readonly providerProductsService: ProviderProductsService) {
-  }
+  constructor(private readonly providerProductsService: ProviderProductsService) {}
 }
