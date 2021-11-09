@@ -7,7 +7,7 @@ import { BrandDto } from '../dto/brand.dto';
 export class BrandController {
   constructor(private readonly facade: BrandFacadeService) {}
 
-  @Get('')
+  @Get()
   public async getBrands(): Promise<StandardResponse<BrandDto[]>> {
     return {
       status: HttpStatus.OK,
