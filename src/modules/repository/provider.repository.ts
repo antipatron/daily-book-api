@@ -7,6 +7,7 @@ export class ProviderRepository extends BaseRepository<ProviderEntity> {
 
   async findProvidersFilter(seller: string, name: string, company: number){
     name = !name? '':name;
+    seller = !seller? '':seller;
     const sqlQuery = this.createQueryBuilder('provider')
       .select('provider.id', 'id')
       .addSelect('provider.identifier', 'identifier')
@@ -14,9 +15,9 @@ export class ProviderRepository extends BaseRepository<ProviderEntity> {
       .addSelect('provider.seller_name', 'sellerName')
       .addSelect('provider.address', 'address')
       .addSelect('provider.email', 'email')
-      .addSelect('provider.phone_1', 'phoneOne')
-      .addSelect('provider.phone_2', 'phoneTwo')
-      .addSelect('provider.phone_3', 'phoneThree')
+      .addSelect('provider.phone_1', 'phone1')
+      .addSelect('provider.phone_2', 'phone2')
+      .addSelect('provider.phone_3', 'phone3')
       .where('provider.company_id = :company', {company: company})
       .andWhere('ISNULL(:name) or provider.provider_name like :name', {name: '%'+name+'%'})
       .andWhere('ISNULL(:seller) or provider.seller_name like :seller', {seller: '%'+seller+'%'})
