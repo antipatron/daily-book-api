@@ -4,6 +4,7 @@ import { StandardResponse } from '../../utils/http-response/standard-response';
 import { ProductFullDto } from '../dto/product-full.dto';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProductDto } from '../dto/product.dto';
+import { MESSAGES_RESPONSE } from '../../utils/enums/messages-response.enum';
 
 @ApiTags('Products')
 @Controller('api/product')
@@ -33,7 +34,8 @@ export class ProductController {
   })
   public async saveProductsFull(@Body() productFullDto: ProductFullDto): Promise<StandardResponse<any>> {
     return {
-      status: HttpStatus.OK,
+      status: HttpStatus.CREATED,
+      message: MESSAGES_RESPONSE.CREATED,
       body: await this.facade.saveProductsFull(productFullDto)
     };
   }
