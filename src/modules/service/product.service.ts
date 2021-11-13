@@ -14,6 +14,10 @@ export class ProductService {
     return await this.repository.findProductsFilter(code, name, company);
   }
 
+  public async find(id: number){
+    return await this.repository.findOne(id);
+  }
+
   public async save(product: ProductEntity): Promise<ProductEntity> {
     return await this.repository.save(product);
   }

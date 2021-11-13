@@ -13,4 +13,8 @@ export class ProviderProductsService {
   public async save(providerProductsEntity: ProviderProductsEntity): Promise<ProviderProductsEntity> {
     return await this.repository.save(providerProductsEntity);
   }
+
+  public async findAllByIdProduct(id: number): Promise<Array<ProviderProductsEntity>> {
+    return await this.repository.findAllByIdProduct(id)
+  }
 }

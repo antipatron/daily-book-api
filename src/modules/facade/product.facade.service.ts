@@ -10,6 +10,8 @@ import { ProviderProductsEntity } from '../entity/provider-products.entity';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { ProviderService } from '../service/provider.service';
 import { CompanyService } from '../service/company.service';
+import { ProviderProductsDto } from '../dto/provider-products.dto';
+import { ProductDetailDto } from '../dto/product-detail.dto';
 
 @Injectable()
 export class ProductFacadeService {
@@ -23,14 +25,33 @@ export class ProductFacadeService {
     return await this.productService.findProductsFilter(code, name, company)
   }
 
+  public async find(id: number): Promise<ProductFullDto> {
+    ProductFacadeService.validateRequired(id)
+    ProductFacadeService.validateRequired(await this.productService.exists(id))
+    let product = await this.productService.find(id)
+    let providerProducts: Array<ProviderProductsDto> = await this.providerProductsService.findAllByIdProduct(id)
+    let productFullDto = new ProductFullDto()
+    productFullDto.id = product.id;
+    productFullDto.code = product.code;
+    productFullDto.name = product.name;
+    productFullDto.description = product.description;
+    productFullDto.brandId = product.brandId;
+    productFullDto.ivaId = product.ivaId;
+    productFullDto.companyId = product.companyId;
+    productFullDto.productDetail = providerProducts;
+    return productFullDto
+  }
+
   @Transactional()
   public async saveProductsFull(productFull: ProductFullDto): Promise<ProductDto> {
     ProductFacadeService.validateRequired(productFull.name)
     ProductFacadeService.validateRequired(productFull.companyId)
-    ProductFacadeService.validateRequired(productFull.providerId)
-    ProductFacadeService.validateRequired(productFull.timestamp)
-    ProductFacadeService.validateRequired(await this.providerService.exists(productFull.providerId))
     ProductFacadeService.validateRequired(await this.companyService.exists(productFull.companyId))
+    for (const productDetail of productFull.productDetail) {
+      ProductFacadeService.validateRequired(productDetail.providerId)
+      ProductFacadeService.validateRequired(productDetail.timestamp)
+      ProductFacadeService.validateRequired(await this.providerService.exists(productDetail.providerId))
+    }
 
     let product = new ProductEntity();
     product.code = productFull.code;
@@ -41,13 +62,44 @@ export class ProductFacadeService {
     product.companyId = productFull.companyId;
     let productSaved = await this.productService.save(product)
 
+    for (const productDetail of productFull.productDetail) {
+      let providerProduct = new ProviderProductsEntity();
+      providerProduct.productId = productSaved.id;
+      providerProduct.providerId = productDetail.providerId;
+      providerProduct.netPrice = productDetail.netPrice;
+      providerProduct.sellPrice = productDetail.sellPrice;
+      providerProduct.timestamp = productDetail.timestamp;
+      await this.providerProductsService.save(providerProduct)
+    }
+    return productSaved;
+  }
+
+  @Transactional()
+  public async saveProductFull(productDetailDto: ProductDetailDto): Promise<ProductDto> {
+    ProductFacadeService.validateRequired(productDetailDto.name)
+    ProductFacadeService.validateRequired(productDetailDto.companyId)
+    ProductFacadeService.validateRequired(await this.companyService.exists(productDetailDto.companyId))
+    ProductFacadeService.validateRequired(productDetailDto.productDetail.providerId)
+    ProductFacadeService.validateRequired(productDetailDto.productDetail.timestamp)
+    ProductFacadeService.validateRequired(await this.providerService.exists(productDetailDto.productDetail.providerId))
+
+    let product = new ProductEntity();
+    product.code = productDetailDto.code;
+    product.name = productDetailDto.name;
+    product.description = productDetailDto.description;
+    product.brandId = productDetailDto.brandId;
+    product.ivaId = productDetailDto.ivaId;
+    product.companyId = productDetailDto.companyId;
+    let productSaved = await this.productService.save(product)
+
     let providerProduct = new ProviderProductsEntity();
     providerProduct.productId = productSaved.id;
-    providerProduct.providerId = productFull.providerId;
-    providerProduct.netPrice = productFull.netPrice;
-    providerProduct.sellPrice = productFull.sellPrice;
-    providerProduct.timestamp = productFull.timestamp;
+    providerProduct.providerId = productDetailDto.productDetail.providerId;
+    providerProduct.netPrice = productDetailDto.productDetail.netPrice;
+    providerProduct.sellPrice = productDetailDto.productDetail.sellPrice;
+    providerProduct.timestamp = productDetailDto.productDetail.timestamp;
     await this.providerProductsService.save(providerProduct)
+
     return productSaved;
   }
 
