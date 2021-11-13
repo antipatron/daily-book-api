@@ -20,9 +20,11 @@ export class ProductRepository extends BaseRepository<ProductEntity> {
       .leftJoin('product.brand', 'brand')
       .leftJoin('product.iva', 'iva')
       .where('product.company_id = :company', {company: company})
-      .andWhere('ISNULL(:name) or product.name like :name', {name: '%'+name+'%'})
-      .andWhere('ISNULL(:code) or product.code = :code', {code: code})
+      .andWhere('(ISNULL(:name) or product.name like :name)', {name: '%'+name+'%'})
+      .andWhere('(ISNULL(:code) or product.code = :code)', {code: code})
 
     return await sqlQuery.orderBy('product.name', 'ASC').getRawMany();
   }
+
+
 }

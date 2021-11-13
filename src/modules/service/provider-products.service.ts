@@ -22,4 +22,8 @@ export class ProviderProductsService {
     const result = await this.repository.findOne(id);
     return !!result
   }
+
+  public async findProductsProviderFilter(code: string, name: string, company: number, provider: string) {
+    return await this.repository.findProductsProviderFilter(code, name, company, provider);
+  }
 }
