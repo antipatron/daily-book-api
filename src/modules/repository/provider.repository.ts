@@ -25,5 +25,4 @@ export class ProviderRepository extends BaseRepository<ProviderEntity> {
     return await sqlQuery.orderBy('provider.provider_name', 'ASC').getRawMany();
   }
 
-
 }
