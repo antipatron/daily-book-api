@@ -17,4 +17,9 @@ export class ProviderProductsService {
   public async findAllByIdProduct(id: number): Promise<Array<ProviderProductsEntity>> {
     return await this.repository.findAllByIdProduct(id)
   }
+
+  public async exists(id: number): Promise<boolean> {
+    const result = await this.repository.findOne(id);
+    return !!result
+  }
 }

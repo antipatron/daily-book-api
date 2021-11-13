@@ -103,6 +103,47 @@ export class ProductFacadeService {
     return productSaved;
   }
 
+  @Transactional()
+  public async editProductFull(productDetailDto: ProductDetailDto): Promise<ProductDto> {
+    ProductFacadeService.validateRequired(productDetailDto.id)
+    ProductFacadeService.validateRequired(productDetailDto.name)
+    ProductFacadeService.validateRequired(productDetailDto.companyId)
+    ProductFacadeService.validateRequired(await this.companyService.exists(productDetailDto.companyId))
+    ProductFacadeService.validateRequired(await this.productService.exists(productDetailDto.id))
+    ProductFacadeService.validateRequired(productDetailDto.productDetail.providerId)
+    ProductFacadeService.validateRequired(productDetailDto.productDetail.timestamp)
+    ProductFacadeService.validateRequired(await this.providerService.exists(productDetailDto.productDetail.providerId))
+
+    let product = new ProductEntity();
+    product.id = productDetailDto.id;
+    product.code = productDetailDto.code;
+    product.name = productDetailDto.name;
+    product.description = productDetailDto.description;
+    product.brandId = productDetailDto.brandId;
+    product.ivaId = productDetailDto.ivaId;
+    product.companyId = productDetailDto.companyId;
+    let productSaved = await this.productService.save(product).catch((e) =>{
+      throw new RequestErrorException(MESSAGES_EXCEPTION.BUSINESS_EXCEPTION)
+    });
+
+    let providerProduct = new ProviderProductsEntity();
+    if(productDetailDto.productDetail.id){
+      let exist = await this.providerProductsService.exists(productDetailDto.productDetail.id)
+      if(exist){
+        providerProduct.id = productDetailDto.productDetail.id;
+      }
+    }
+    providerProduct.productId = productSaved.id;
+    providerProduct.providerId = productDetailDto.productDetail.providerId;
+    providerProduct.netPrice = productDetailDto.productDetail.netPrice;
+    providerProduct.sellPrice = productDetailDto.productDetail.sellPrice;
+    providerProduct.timestamp = productDetailDto.productDetail.timestamp;
+    await this.providerProductsService.save(providerProduct).catch((e) =>{
+      throw new RequestErrorException(MESSAGES_EXCEPTION.BUSINESS_EXCEPTION_PROVIDER_DUPLICATED)
+    });
+    return productSaved;
+  }
+
   private static validateRequired(field: any){
     if(!field){
       throw new RequestErrorException(MESSAGES_EXCEPTION.REQUEST_CLIENT_EXCEPTION);
