@@ -12,7 +12,7 @@ export class ProviderProductsController {
   public async findFiltered(@Query() query): Promise<StandardResponse<any[]>> {
     return {
       status: HttpStatus.OK,
-      body: await this.providerProductsFacadeService.findProductsFilter(query['code'], query['name'], query['company'])
+      body: await this.providerProductsFacadeService.findProductsFilter(query['code'], query['name'], query['company'], query['provider'])
     };
   }
 

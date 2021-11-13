@@ -8,11 +8,11 @@ export class ProviderProductsFacadeService {
   constructor(private readonly providerProductsService: ProviderProductsService) {
   }
 
-  public async findProductsFilter(code: string, name: string, company: number) {
+  public async findProductsFilter(code: string, name: string, company: number, provider: string) {
     if(!company){
       throw new RequestErrorException(MESSAGES_EXCEPTION.REQUEST_CLIENT_EXCEPTION);
     }
-    return await this.providerProductsService.findProductsProviderFilter(code, name, company)
+    return await this.providerProductsService.findProductsProviderFilter(code, name, company, provider)
   }
 
 }
