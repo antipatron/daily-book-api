@@ -54,6 +54,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpGeneralExceptionFilter } from './utils/exception/filter/http-general-exception.filter';
 import { HttpBusinessExceptionFilter } from './utils/exception/filter/http-business-exception.filter';
 import { HttpRequestErrorExceptionFilter } from './utils/exception/filter/request-error-exception.filter';
+import { ProviderProductsController } from "./modules/controller/provider-products.controller";
 
 @Module({
   imports: [
@@ -93,7 +94,7 @@ import { HttpRequestErrorExceptionFilter } from './utils/exception/filter/reques
       UserEntity, UserRepository
     ])
   ],
-  controllers: [BrandController, CompanyController, IvaController, ProductController, ProviderController, UserController],
+  controllers: [BrandController, CompanyController, IvaController, ProductController, ProviderController, UserController, ProviderProductsController],
   providers: [
     BrandService, BrandFacadeService,
     CompanyService, CompanyFacadeService,

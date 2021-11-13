@@ -8,4 +8,9 @@ export class ProviderProductsService {
     @InjectRepository(ProviderProductsRepository)
     private readonly repository: ProviderProductsRepository
   ) {}
+
+  public async findProductsProviderFilter(code: string, name: string, company: number, provider: string) {
+    return await this.repository.findProductsProviderFilter(code, name, company, provider);
+  }
+
 }
