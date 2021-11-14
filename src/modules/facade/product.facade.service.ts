@@ -144,6 +144,12 @@ export class ProductFacadeService {
     return productSaved;
   }
 
+  public async deleteProductDetails(idProduct: number) {
+    ProductFacadeService.validateRequired(idProduct)
+    ProductFacadeService.validateRequired(await this.productService.exists(idProduct))
+    return await this.productService.delete(idProduct)
+  }
+
   private static validateRequired(field: any){
     if(!field){
       throw new RequestErrorException(MESSAGES_EXCEPTION.REQUEST_CLIENT_EXCEPTION);
