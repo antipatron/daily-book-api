@@ -2,7 +2,7 @@ import { Controller, Get, HttpStatus, Query } from '@nestjs/common';
 import { StandardResponse } from '../../utils/http-response/standard-response';
 import { ProviderProductsFacadeService } from '../facade/provider-products.facade.service';
 
-@Controller('api/product-provider')
+@Controller('api/provider-products')
 export class ProviderProductsController {
 
   constructor(private readonly providerProductsFacadeService: ProviderProductsFacadeService) {}
