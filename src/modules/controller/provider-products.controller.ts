@@ -4,7 +4,7 @@ import { ProviderProductsFacadeService } from '../facade/provider-products.facad
 import { ApiResponse } from '@nestjs/swagger';
 import { MESSAGES_RESPONSE } from '../../utils/enums/messages-response.enum';
 
-@Controller('api/product-provider')
+@Controller('api/provider-products')
 export class ProviderProductsController {
 
   constructor(private readonly providerProductsFacadeService: ProviderProductsFacadeService) {}
