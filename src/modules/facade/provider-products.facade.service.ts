@@ -14,4 +14,16 @@ export class ProviderProductsFacadeService {
     }
     return await this.providerProductsService.findProductsProviderFilter(code, name, company, provider)
   }
+
+  public async deleteProductDetail(id: number) {
+    ProviderProductsFacadeService.validateRequired(id)
+    ProviderProductsFacadeService.validateRequired(await this.providerProductsService.exists(id))
+    return await this.providerProductsService.delete(id)
+  }
+
+  private static validateRequired(field: any){
+    if(!field){
+      throw new RequestErrorException(MESSAGES_EXCEPTION.REQUEST_CLIENT_EXCEPTION);
+    }
+  }
 }

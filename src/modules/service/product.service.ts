@@ -22,6 +22,10 @@ export class ProductService {
     return await this.repository.save(product);
   }
 
+  public async delete(idProduct: number): Promise<any> {
+    return await this.repository.delete(idProduct);
+  }
+
   public async exists(id: number): Promise<boolean> {
     const result = await this.repository.findOne(id);
     return !!result
