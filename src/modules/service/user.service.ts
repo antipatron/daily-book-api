@@ -8,4 +8,8 @@ export class UserService {
     @InjectRepository(UserRepository)
     private readonly repository: UserRepository
   ) {}
+
+  public async getUserByEmail(email: string){
+    return await this.repository.getUserByEmail(email);
+  }
 }

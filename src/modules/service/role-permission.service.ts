@@ -8,4 +8,8 @@ export class RolePermissionService {
     @InjectRepository(RolePermissionRepository)
     private readonly repository: RolePermissionRepository
   ) {}
+
+  public async getRolePermissionsByRoleId(roleId: number){
+    return await this.repository.getRolePermissionsByRoleId(roleId);
+  }
 }

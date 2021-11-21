@@ -26,10 +26,10 @@ export class UserEntity {
   @JoinColumn({name: 'role_id'})
   role: RoleEntity;
 
-  @Column({name: 'company_id',  nullable: false})
+  @Column({name: 'company_id',  nullable: true})
   companyId: number;
 
-  @ManyToOne(() => CompanyEntity, entity => entity.id, {lazy: true, nullable: false})
+  @ManyToOne(() => CompanyEntity, entity => entity.id, {lazy: true, nullable: true})
   @JoinColumn({name: 'company_id'})
   company: CompanyEntity;
 }
