@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post,Put, Query } from '@nestjs/common';
 import { ProviderFacadeService } from '../facade/provider.facade.service';
 import { StandardResponse } from "../../utils/http-response/standard-response";
 import { ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -41,6 +41,22 @@ export class ProviderController {
     };
   }
 
+  @Put()
+  @ApiResponse({ status: 200, description: 'Successful.'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
+  @ApiBody({
+    description: 'Product updated',
+    type: ProductDetailDto,
+  })
+  public async editProviders(@Body() providerDto: ProviderDto): Promise<StandardResponse<any>> {
+    return {
+      status: HttpStatus.OK,
+      message: MESSAGES_RESPONSE.UPDATED,
+      body: await this.facade.editProvider(providerDto)
+    };
+  }
+
+
   @Delete(':id')
   @ApiResponse({ status: 200, description: 'Successful.'})
   @ApiResponse({ status: 403, description: 'Forbidden.'})
@@ -51,4 +67,5 @@ export class ProviderController {
       body: await this.facade.deleteProvider(id)
     };
   }
+
 }
