@@ -1,9 +1,10 @@
 import { Controller, Delete, Get, HttpStatus, Param, Query } from '@nestjs/common';
 import { StandardResponse } from '../../utils/http-response/standard-response';
 import { ProviderProductsFacadeService } from '../facade/provider-products.facade.service';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MESSAGES_RESPONSE } from '../../utils/enums/messages-response.enum';
 
+@ApiTags('Provider products')
 @Controller('api/provider-products')
 export class ProviderProductsController {
 
