@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { ProviderService } from "../service/provider.service";
-import { RequestErrorException } from "../../utils/exception/request-error.exception";
-import { MESSAGES_EXCEPTION } from "../../utils/exception/messages-exception.enum";
-import { Transactional } from "typeorm-transactional-cls-hooked";
-import { ProviderDto } from "../dto/provider.dto";
-import { ProviderEntity } from "../entity/provider.entity";
+import { Injectable } from '@nestjs/common';
+import { ProviderService } from '../service/provider.service';
+import { RequestErrorException } from '../../utils/exception/request-error.exception';
+import { MESSAGES_EXCEPTION } from '../../utils/exception/messages-exception.enum';
+import { Transactional } from 'typeorm-transactional-cls-hooked';
+import { ProviderDto } from '../dto/provider.dto';
+import { ProviderEntity } from '../entity/provider.entity';
 
 @Injectable()
 export class ProviderFacadeService {
@@ -39,9 +39,18 @@ export class ProviderFacadeService {
     providerEntity.phone3=providerDto.phone3
     providerEntity.companyId=providerDto.companyId
 
-    let providerSaved = await this.providerService.save(providerEntity)
-    return providerSaved;
-
+    return await this.providerService.save(providerEntity);
   }
 
+  public async deleteProvider(idProvider: number) {
+    ProviderFacadeService.validateRequired(idProvider)
+    ProviderFacadeService.validateRequired(await this.providerService.exists(idProvider))
+    return await this.providerService.delete(idProvider)
+  }
+
+  private static validateRequired(field: any){
+    if(!field){
+      throw new RequestErrorException(MESSAGES_EXCEPTION.REQUEST_CLIENT_EXCEPTION);
+    }
+  }
 }
