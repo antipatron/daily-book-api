@@ -1,6 +1,6 @@
-import { EntityRepository } from 'typeorm';
-import { BaseRepository } from 'typeorm-transactional-cls-hooked';
-import { ProviderEntity } from '../entity/provider.entity';
+import { EntityRepository } from "typeorm";
+import { BaseRepository } from "typeorm-transactional-cls-hooked";
+import { ProviderEntity } from "../entity/provider.entity";
 
 @EntityRepository(ProviderEntity)
 export class ProviderRepository extends BaseRepository<ProviderEntity> {
@@ -19,8 +19,8 @@ export class ProviderRepository extends BaseRepository<ProviderEntity> {
       .addSelect('provider.phone_2', 'phone2')
       .addSelect('provider.phone_3', 'phone3')
       .where('provider.company_id = :company', {company: company})
-      .andWhere('ISNULL(:name) or provider.provider_name like :name', {name: '%'+name+'%'})
-      .andWhere('ISNULL(:seller) or provider.seller_name like :seller', {seller: '%'+seller+'%'})
+      .andWhere('(ISNULL(:name) or provider.provider_name like :name)', {name: '%'+name+'%'})
+      .andWhere('(ISNULL(:seller) or provider.seller_name like :seller)', {seller: '%'+seller+'%'})
 
     return await sqlQuery.orderBy('provider.provider_name', 'ASC').getRawMany();
   }

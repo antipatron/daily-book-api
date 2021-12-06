@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { ProviderService } from '../service/provider.service';
-import { RequestErrorException } from '../../utils/exception/request-error.exception';
-import { MESSAGES_EXCEPTION } from '../../utils/exception/messages-exception.enum';
-import { Transactional } from 'typeorm-transactional-cls-hooked';
-import { ProviderDto } from '../dto/provider.dto';
-import { ProviderEntity } from '../entity/provider.entity';
+import { Injectable } from "@nestjs/common";
+import { ProviderService } from "../service/provider.service";
+import { RequestErrorException } from "../../utils/exception/request-error.exception";
+import { MESSAGES_EXCEPTION } from "../../utils/exception/messages-exception.enum";
+import { Transactional } from "typeorm-transactional-cls-hooked";
+import { ProviderDto } from "../dto/provider.dto";
+import { ProviderEntity } from "../entity/provider.entity";
 
 @Injectable()
 export class ProviderFacadeService {
@@ -15,6 +15,24 @@ export class ProviderFacadeService {
       throw new RequestErrorException(MESSAGES_EXCEPTION.REQUEST_CLIENT_EXCEPTION);
     }
     return await this.providerService.findProvidersFilter(seller, name, company)
+  }
+
+  public async find(id: number): Promise<ProviderDto> {
+    ProviderFacadeService.validateRequired(id)
+    ProviderFacadeService.validateRequired(await this.providerService.exists(id))
+    let provider = await this.providerService.find(id)
+    let providerDto = new ProviderDto()
+    providerDto.id=provider.id
+    providerDto.identifier=provider.identifier;
+    providerDto.providerName=provider.providerName
+    providerDto.sellerName=provider.sellerName
+    providerDto.address=provider.address
+    providerDto.email=provider.email
+    providerDto.phone1=provider.phone1
+    providerDto.phone2=provider.phone2
+    providerDto.phone3=provider.phone3
+    providerDto.companyId=provider.companyId
+    return providerDto;
   }
 
   @Transactional()

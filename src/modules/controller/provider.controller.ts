@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post,Put, Query } from '@nestjs/common';
-import { ProviderFacadeService } from '../facade/provider.facade.service';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query } from "@nestjs/common";
+import { ProviderFacadeService } from "../facade/provider.facade.service";
 import { StandardResponse } from "../../utils/http-response/standard-response";
 import { ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { ProductDto } from "../dto/product.dto";
@@ -23,6 +23,16 @@ export class ProviderController {
     return {
       status: HttpStatus.OK,
       body: await this.facade.findProvidersFilter(query['seller'], query['name'], query['company'])
+    };
+  }
+
+  @Get('/by-id/:id')
+  @ApiResponse({ status: 200, description: 'Successful.'})
+  @ApiResponse({ status: 403, description: 'Forbidden.'})
+  public async find(@Param('id') id: number): Promise<StandardResponse<ProviderDto>> {
+    return {
+      status: HttpStatus.OK,
+      body: await this.facade.find(id)
     };
   }
 

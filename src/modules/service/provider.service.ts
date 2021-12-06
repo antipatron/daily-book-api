@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ProviderRepository } from '../repository/provider.repository';
-import { ProviderEntity } from '../entity/provider.entity';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { ProviderRepository } from "../repository/provider.repository";
+import { ProviderEntity } from "../entity/provider.entity";
 
 @Injectable()
 export class ProviderService {
@@ -17,6 +17,10 @@ export class ProviderService {
 
   public async findProvidersFilter(seller: string, name: string, company: number) {
     return await this.repository.findProvidersFilter(seller, name, company);
+  }
+
+  public async find(id: number){
+    return await this.repository.findOne(id);
   }
 
   public async save(provider: ProviderEntity): Promise<ProviderEntity> {
