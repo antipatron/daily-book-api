@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Iniciando..."
+sudo apt install -y npm
 npm install
 npm run build
 # pm2 start dist/src/main.js --name daily-book-api
