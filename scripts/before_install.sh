@@ -3,6 +3,7 @@
 #download node and npm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 . ~/.nvm/nvm.sh
+source .bashrc
 nvm install v14.8.1
 nvm use v14.18.1
 
