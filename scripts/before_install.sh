@@ -7,7 +7,7 @@ nvm install v14.8.1
 nvm use v14.18.1
 
 #create our working directory if it doesnt exist
-DIR="/home/ubuntu/node-js/daily-book-api"
+DIR="/home/userdocker/daily-book/daily-book-api"
 if [ -d "$DIR" ]; then
   echo "${DIR} exists"
 else

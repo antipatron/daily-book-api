@@ -1,10 +1,12 @@
 #!/bin/bash
 
 #give permission for everything in the express-app directory
-sudo chmod -R 777 /home/ubuntu/node-js/daily-book-api
+sudo chmod -R 777 /home/userdocker/daily-book/daily-book-api
+
+sudo mv /home/userdocker/Desktop/jenkins/jenkins_home/workspace/pipeline-qa-daily-fs /home/userdocker/daily-book/daily-book-api
 
 #navigate into our working directory where we have all our github files
-cd /home/ubuntu/node-js/daily-book-api
+cd /home/userdocker/daily-book/daily-book-api
 
 #add npm and node to path
 export NVM_DIR="$HOME/.nvm"	
