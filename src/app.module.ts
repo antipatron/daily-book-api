@@ -50,6 +50,11 @@ import { IvaController } from './modules/controller/iva.controller';
 import { ProductController } from './modules/controller/product.controller';
 import { ProviderController } from './modules/controller/provider.controller';
 import { UserController } from './modules/controller/user.controller';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpGeneralExceptionFilter } from './utils/exception/filter/http-general-exception.filter';
+import { HttpBusinessExceptionFilter } from './utils/exception/filter/http-business-exception.filter';
+import { HttpRequestErrorExceptionFilter } from './utils/exception/filter/request-error-exception.filter';
+import { ProviderProductsController } from "./modules/controller/provider-products.controller";
 
 @Module({
   imports: [
@@ -89,7 +94,7 @@ import { UserController } from './modules/controller/user.controller';
       UserEntity, UserRepository
     ])
   ],
-  controllers: [BrandController, CompanyController, IvaController, ProductController, ProviderController, UserController],
+  controllers: [BrandController, CompanyController, IvaController, ProductController, ProviderController, UserController, ProviderProductsController],
   providers: [
     BrandService, BrandFacadeService,
     CompanyService, CompanyFacadeService,
@@ -101,6 +106,9 @@ import { UserController } from './modules/controller/user.controller';
     RoleService, RoleFacadeService,
     RolePermissionService, RolePermissionFacadeService,
     UserService, UserFacadeService,
+    { provide: APP_FILTER, useClass: HttpGeneralExceptionFilter },
+    { provide: APP_FILTER, useClass: HttpBusinessExceptionFilter },
+    { provide: APP_FILTER, useClass: HttpRequestErrorExceptionFilter },
     Logger
   ],
 })
